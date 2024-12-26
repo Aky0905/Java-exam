@@ -70,3 +70,51 @@ public class Timetable {
         removeButton = new JButton("수업 삭제");
         saveButton = new JButton("저장");
         loadButton = new JButton("불러오기");
+
+        removeButton.setBackground(new Color(244, 67, 54));
+        removeButton.setForeground(Color.WHITE);
+        saveButton.setBackground(new Color(76, 175, 80));
+        saveButton.setForeground(Color.WHITE);
+        loadButton.setBackground(new Color(33, 150, 243));
+        loadButton.setForeground(Color.WHITE);
+
+        buttonPanel.add(removeButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(loadButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeClass();
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveTimetable();
+            }
+        });
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadTimetable();
+            }
+        });
+
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    private void removeClass() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            for (int i = 1; i < table.getColumnCount(); i++) {
+                tableModel.setValueAt("", selectedRow, i);
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "삭제할 수업을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
