@@ -5,3 +5,5 @@ public class Timetable {
     private JButton removeButton;
     private JButton saveButton;
     private JButton loadButton;
+
+    private List<String[]> classList = new ArrayList<>();
