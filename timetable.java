@@ -1,14 +1,27 @@
-public class Timetable {
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class timetable {
     private JFrame frame;
     private JTable table;
     private DefaultTableModel tableModel;
     private JButton removeButton;
     private JButton saveButton;
     private JButton loadButton;
-
+    
+    // 수업 정보를 저장하는 리스트
     private List<String[]> classList = new ArrayList<>();
 
-    public Timetable() {
+    public timetable() {
         frame = new JFrame("시간표 수정하기");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -32,9 +45,9 @@ public class Timetable {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component c = super.prepareRenderer(renderer, row, column);
                 if (column == 0) {
-                    c.setBackground(new Color(200, 230, 201)); 
+                    c.setBackground(new Color(200, 230, 201)); // 연한 초록색
                 } else if (getValueAt(row, column) != null && !getValueAt(row, column).toString().isEmpty()) {
-                    c.setBackground(new Color(255, 224, 178));
+                    c.setBackground(new Color(255, 224, 178)); // 연한 주황색
                 } else {
                     c.setBackground(Color.WHITE);
                 }
@@ -42,14 +55,13 @@ public class Timetable {
             }
         };
 
-        
+        // 셀 가운데 정렬
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                setHorizontalAlignment(SwingConstants.CENTER); 
+                setHorizontalAlignment(SwingConstants.CENTER); // 가운데 정렬
                 return c;
-
             }
         });
 
@@ -89,6 +101,7 @@ public class Timetable {
                 removeClass();
             }
         });
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,13 +131,14 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "삭제할 수업을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private void saveTimetable() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("timetable.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 for (int j = 0; j < tableModel.getColumnCount(); j++) {
                     writer.write(tableModel.getValueAt(i, j).toString());
                     if (j < tableModel.getColumnCount() - 1) {
-                        writer.write(","); 
+                        writer.write(","); // 구분자로 쉼표 사용
                     }
                 }
                 writer.newLine();
@@ -134,6 +148,7 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private void loadTimetable() {
         try (BufferedReader reader = new BufferedReader(new FileReader("timetable.txt"))) {
             String line;
@@ -150,13 +165,14 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "불러오는 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private int findRowIndex(String time) {
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             if (tableModel.getValueAt(i, 0).equals(time)) {
                 return i;
             }
         }
-        return -1; 
+        return -1; // 찾지 못한 경우
     }
 
     private int getDayIndex(String day) {
@@ -166,11 +182,11 @@ public class Timetable {
             case "수요일": return 3;
             case "목요일": return 4;
             case "금요일": return 5;
-            default: return -1; 
+            default: return -1; // 잘못된 요일
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Timetable::new);
+        SwingUtilities.invokeLater(timetable::new);
     }
 }
