@@ -49,3 +49,24 @@ public class Timetable {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 setHorizontalAlignment(SwingConstants.CENTER); 
                 return c;
+
+            }
+        });
+
+        table.setFillsViewportHeight(true);
+        table.setGridColor(Color.LIGHT_GRAY);
+        table.setRowHeight(30);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(102, 204, 255));
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+        removeButton = new JButton("수업 삭제");
+        saveButton = new JButton("저장");
+        loadButton = new JButton("불러오기");
