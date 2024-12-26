@@ -118,3 +118,19 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "삭제할 수업을 선택하세요.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void saveTimetable() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("timetable.txt"))) {
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                    writer.write(tableModel.getValueAt(i, j).toString());
+                    if (j < tableModel.getColumnCount() - 1) {
+                        writer.write(","); 
+                    }
+                }
+                writer.newLine();
+            }
+            JOptionPane.showMessageDialog(frame, "시간표가 저장되었습니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame, "저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
