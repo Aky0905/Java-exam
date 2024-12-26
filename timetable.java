@@ -150,3 +150,22 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "불러오는 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private int findRowIndex(String time) {
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if (tableModel.getValueAt(i, 0).equals(time)) {
+                return i;
+            }
+        }
+        return -1; 
+    }
+
+    private int getDayIndex(String day) {
+        switch (day) {
+            case "월요일": return 1;
+            case "화요일": return 2;
+            case "수요일": return 3;
+            case "목요일": return 4;
+            case "금요일": return 5;
+            default: return -1; 
+        }
+    }
