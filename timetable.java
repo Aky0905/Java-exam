@@ -134,3 +134,19 @@ public class Timetable {
             JOptionPane.showMessageDialog(frame, "저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void loadTimetable() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("timetable.txt"))) {
+            String line;
+            int row = 0;
+            while ((line = reader.readLine()) != null && row < tableModel.getRowCount()) {
+                String[] values = line.split(",");
+                for (int col = 0; col < values.length && col < tableModel.getColumnCount(); col++) {
+                    tableModel.setValueAt(values[col], row, col);
+                }
+                row++;
+            }
+            JOptionPane.showMessageDialog(frame, "시간표가 불러와졌습니다.", "정보", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame, "불러오는 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
