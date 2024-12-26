@@ -24,3 +24,18 @@ public class Timetable {
             {"15:00 - 16:00", "", "", "", "", ""},
             {"16:00 - 17:00", "", "", "", "", ""},
             {"17:00 - 18:00", "", "", "", "", ""}
+        };
+
+        tableModel = new DefaultTableModel(initialData, columnNames);
+        table = new JTable(tableModel) {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (column == 0) {
+                    c.setBackground(new Color(200, 230, 201)); 
+                } else if (getValueAt(row, column) != null && !getValueAt(row, column).toString().isEmpty()) {
+                    c.setBackground(new Color(255, 224, 178));
+                } else {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
