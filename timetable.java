@@ -10,6 +10,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Timetable 클래스는 시간표를 수정하고 관리하는 GUI 애플리케이션입니다.
+ * 사용자는 수업을 추가, 삭제하고, 파일에 저장하거나 불러올 수 있습니다.
+ * 
+ * @author Kim Jae Yeong
+ * 
+ * @created 2024-12-26
+ * @lastModified 2024-12-26
+ */
 public class timetable {
     private JFrame frame;
     private JTable table;
@@ -17,10 +26,14 @@ public class timetable {
     private JButton removeButton;
     private JButton saveButton;
     private JButton loadButton;
-    
+
     // 수업 정보를 저장하는 리스트
     private List<String[]> classList = new ArrayList<>();
 
+    /**
+     * Timetable 생성자.
+     * GUI 구성 요소를 초기화하고, 기본 시간표 데이터를 설정합니다.
+     */
     public timetable() {
         frame = new JFrame("시간표 수정하기");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,6 +134,10 @@ public class timetable {
         frame.setVisible(true);
     }
 
+    /**
+     * 선택된 행의 수업을 삭제합니다.
+     * 삭제할 수업이 선택되지 않은 경우 오류 메시지를 표시합니다.
+     */
     private void removeClass() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
@@ -132,6 +149,10 @@ public class timetable {
         }
     }
 
+    /**
+     * 현재 시간표를 파일에 저장합니다.
+     * 저장 중 오류가 발생할 경우 오류 메시지를 표시합니다.
+     */
     private void saveTimetable() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("timetable.txt"))) {
             for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -149,6 +170,10 @@ public class timetable {
         }
     }
 
+    /**
+     * 파일에서 시간표 데이터를 불러옵니다.
+     * 불러오는 중 오류가 발생할 경우 오류 메시지를 표시합니다.
+     */
     private void loadTimetable() {
         try (BufferedReader reader = new BufferedReader(new FileReader("timetable.txt"))) {
             String line;
@@ -166,6 +191,12 @@ public class timetable {
         }
     }
 
+    /**
+     * 주어진 시간에 해당하는 행의 인덱스를 찾습니다.
+     *
+     * @param time 찾고자 하는 시간 문자열
+     * @return 해당 시간의 행 인덱스, 찾지 못한 경우 -1 반환
+     */
     private int findRowIndex(String time) {
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             if (tableModel.getValueAt(i, 0).equals(time)) {
@@ -175,6 +206,12 @@ public class timetable {
         return -1; // 찾지 못한 경우
     }
 
+    /**
+     * 주어진 요일 문자열에 해당하는 인덱스를 반환합니다.
+     *
+     * @param day 찾고자 하는 요일 문자열
+     * @return 해당 요일의 인덱스, 잘못된 경우 -1 반환
+     */
     private int getDayIndex(String day) {
         switch (day) {
             case "월요일": return 1;
@@ -186,6 +223,12 @@ public class timetable {
         }
     }
 
+    /**
+     * 애플리케이션의 메인 메서드입니다.
+     * Swing GUI를 생성합니다.
+     *
+     * @param args 명령줄 인수
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(timetable::new);
     }
